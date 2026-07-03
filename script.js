@@ -37,7 +37,56 @@ function clearEditor() {
 -------------------------- */
 
 function printDocument() {
-    window.print();
+
+    const printWindow = window.open("", "_blank");
+
+    const docContent = previewFrame.contentDocument.documentElement.innerHTML;
+
+    printWindow.document.open();
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Print Document</title>
+
+            <style>
+                @page {
+                    size: A4;
+                    margin: 20mm;
+                }
+
+                body {
+                    font-family: sans-serif;
+                    font-size: 16px;
+                    line-height: 1.6;
+                    margin: 0;
+                    padding: 0;
+                    color: #000;
+                }
+
+                img { max-width: 100%; }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                td, th {
+                    border: 1px solid #000;
+                    padding: 6px;
+                }
+            </style>
+
+        </head>
+
+        <body onload="window.print(); setTimeout(() => window.close(), 500);">
+            ${docContent}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
 }
 
 /* --------------------------
