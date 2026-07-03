@@ -32,75 +32,91 @@ function clearEditor() {
     htmlInput.focus();
 }
 
-/* --------------------------
-   Print
--------------------------- */
-
 function printDocument() {
 
     const printWindow = window.open("", "_blank");
 
-    const docContent = previewFrame.contentDocument.documentElement.innerHTML;
+    const docContent = preview.innerHTML;
 
     printWindow.document.open();
+
     printWindow.document.write(`
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
+
         <head>
+
             <meta charset="UTF-8">
+
             <title>Print Document</title>
 
             <style>
-                @page {
-                    size: A4;
-                    margin: 20mm;
+
+                @page{
+                    size:A4;
+                    margin:20mm;
                 }
 
-                body {
-                    font-family: sans-serif;
-                    font-size: 16px;
-                    line-height: 1.6;
-                    margin: 0;
-                    padding: 0;
-                    color: #000;
+                *{
+                    box-sizing:border-box;
                 }
 
-                img { max-width: 100%; }
-
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
+                body{
+                    margin:0;
+                    padding:0;
+                    font-family:sans-serif;
+                    color:#111;
+                    font-size:16px;
+                    line-height:1.6;
+                    background:#fff;
                 }
 
-                td, th {
-                    border: 1px solid #000;
-                    padding: 6px;
+                img{
+                    max-width:100%;
                 }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                }
+
+                table,
+                th,
+                td{
+                    border:1px solid #000;
+                }
+
+                th,
+                td{
+                    padding:6px;
+                }
+
             </style>
 
         </head>
 
-        <body onload="window.print(); setTimeout(() => window.close(), 500);">
+        <body>
+
             ${docContent}
+
+            <script>
+
+                window.onload = () => {
+
+                    window.print();
+
+                    setTimeout(() => {
+                        window.close();
+                    }, 500);
+
+                };
+
+            <\/script>
+
         </body>
+
         </html>
     `);
 
     printWindow.document.close();
 }
-
-/* --------------------------
-   Events
--------------------------- */
-
-htmlInput.addEventListener("input", renderPreview);
-
-clearBtn.addEventListener("click", clearEditor);
-
-printBtn.addEventListener("click", printDocument);
-
-/* --------------------------
-   Initial State
--------------------------- */
-
-preview.innerHTML = "";
