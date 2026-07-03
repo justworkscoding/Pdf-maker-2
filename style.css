@@ -169,10 +169,22 @@ button{
 
 /* ==========================
    Print
-=======================
+======================
+/* ==========================
+   Print
+========================== */
+
+@page{
+    size:A4;
+    margin:20mm;
+}
+
 @media print{
 
+    html,
     body{
+        margin:0 !important;
+        padding:0 !important;
         background:#fff;
     }
 
@@ -190,6 +202,8 @@ button{
 
     .previewSection{
         width:100%;
+        margin:0;
+        padding:0;
     }
 
     #paper{
@@ -199,6 +213,12 @@ button{
         padding:0;
         box-shadow:none;
         border:none;
+        overflow:visible;
     }
 
-   }
+    #preview{
+        margin:0;
+        padding:0;
+    }
+
+}
